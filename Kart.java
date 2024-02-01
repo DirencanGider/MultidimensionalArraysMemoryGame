@@ -1,7 +1,7 @@
 public class Kart {
 
     private char deger;
-    private boolean tahmin = false;
+    private boolean tahmin = false; //İlk başta kartları göstermek istemediğimiz için false yaptık.
 
     public Kart(char deger) {
         this.deger = deger;

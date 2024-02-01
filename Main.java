@@ -1,4 +1,9 @@
+import java.util.Scanner;
+
 public class Main {
+
+    private static Kart[][] kartlar = new Kart[4][4];
+
 
         /*
         2 boyutlu arraylerle hafıza oyunu
@@ -25,7 +30,6 @@ public class Main {
          */
 
     public static void main(String[] args) {
-        Kart[][] kartlar = new Kart[4][4];
 
         kartlar[0][0] = new Kart('E');
         kartlar[0][1] = new Kart('A');
@@ -44,7 +48,71 @@ public class Main {
         kartlar[3][2] = new Kart('B');
         kartlar[3][3] = new Kart('C');
 
+        //oyunTahtasi(); //Aşağıdaki oyunBittiMi metodunu oluşturduktan sonra bunu devre dışı bıraktık.
 
     }
+    /*  2. dersin başında yaptığımız ilk işlem. Oyunda tüm kartlar tahmin edildiğinde oyunu bitireceğimiz bir while
+    döngüsü yazacağız.*/
+
+    while (!oyunBittiMi()) {
+        oyunTahtasi();
+        tahminEt();
+
+    }
+    public static void tahminEt() {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Birinci Tahmin (i ve j değerlerini bir boşluklu girin...): ");
+        int i1 = scanner.nextInt();
+        int j1 = scanner.nextInt();
+
+        kartlar[i1][j1].setTahmin(true);
+        oyunTahtasi();
+
+        System.out.println("İkinci Tahmin (i ve j değerlerini bir boşluklu girin...): ");
+        int i2 = scanner.nextInt();
+        int j2 = scanner.nextInt();
+
+        if (kartlar[i1][j1].getDeger() == kartlar[i2][j2].getDeger()) {  //İki tahminin eşitliğini kontrol ediyoruz.
+            kartlar[i2][j2].setTahmin(true);
+        }
+        else {
+            kartlar[i1][j1].setTahmin(false);
+        }
+    }
+    public static boolean oyunBittiMi() {
+
+        for (int i = 0 ; i < 4 ; i++) {
+            for (int j = 0 ; j < 4 ; j++) {
+                if (kartlar[i][j].isTahmin() == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public static void oyunTahtasi() {
+
+        for (int i = 0 ; i < 4 ; i++) {
+            System.out.println("____________________"); //Tabloda her satırın üst çizgileri.
+            for (int j = 0 ; j < 4 ; j++) {
+
+                if (kartlar[i][j].isTahmin()) {
+                    System.out.print(" |" + kartlar[i][j].getDeger() + "| "); //Tahmin True ise değerler gelecek.
+                }
+                else {
+                    System.out.print(" | | "); //False ise boş kalmaya devam edecek.
+
+                }
+
+            }
+            System.out.println(" ");
+        }
+        System.out.println("____________________"); //Tablonun en alt çizgisi.
+
+    }
+
 
 }
